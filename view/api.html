@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="/style" />
+  </head>
+  <body>
+    <div class="hero bg-gray">
+      <div class="hero-body">
+        <h1>API</h1>
+        <pre class="code" data-lang="baseEmoji">
+            <code>curl "http://localhost:3000" \
+                -X POST \
+                -d "{\n  \"url\":\"http://github.com\",\n  \"type\":\"emoji\"\n}" \
+                -H "Content-Type: application/json" </code></pre>
+        <pre class="code" data-lang="base62">
+                    <code>curl "http://localhost:3000" \
+                        -X POST \
+                        -d "{\n  \"url\":\"http://github.com\"\n}" \
+                        -H "Content-Type: application/json" </code></pre>
+      </div>
+    </div>
+  </body>
+</html>

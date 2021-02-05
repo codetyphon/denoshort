@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="/style" />
+  </head>
+  <body>
+    <div class="hero bg-gray">
+      <div class="hero-body">
+        <h1>Create a short URL</h1>
+        <p>
+          Short URL is a service that takes long URLs and squeezes them into
+          fewer characters to make a link that is easier to share tweet email to
+          friends. Sorry Any Audult Short URL Will Be Remove
+        </p>
+        <div id="msg" class="toast hide"></div>
+        <p></p>
+        <div>
+          <div class="input-group">
+            <span class="input-group-addon">URL</span>
+            <input
+              id="url"
+              type="text"
+              class="form-input input-lg"
+              placeholder="Shorten your link"
+            />
+            <button onclick="submit62()" class="btn input-group-btn btn-lg">
+              Create Base62
+            </button>
+            <button
+              onclick="submitemoji()"
+              class="btn btn-primary input-group-btn btn-lg"
+            >
+              Create BaseEmoji 🦕
+            </button>
+          </div>
+          <div class="footer">
+            code by codetyphon ❤️️ Powered By 🦕 &nbsp;&nbsp;
+            <a
+              class="github-button"
+              href="https://github.com/codetyphon/denoshort"
+              data-size="large"
+              data-show-count="true"
+              aria-label="Star codetyphon/denoshort on GitHub"
+              >Star</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const validURL = (str) => {
+      var pattern = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+          "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+          "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+          "(\\#[-a-z\\d_]*)?$",
+        "i"
+      ); // fragment locator
+      return !!pattern.test(str);
+    };
+    const geturl = () => {
+      const url = document.getElementById("url").value;
+      return url;
+    };
+    const post = (jsonObj) => {
+      if (validURL(jsonObj.url)) {
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        const body = JSON.stringify(jsonObj);
+        const init = {
+          method: "POST",
+          headers,
+          body,
+        };
+        fetch("/", init)
+          .then((response) => {
+            return response.text(); // or .text() or .blob() ...
+          })
+          .then((text) => {
+            document.getElementById("msg").classList.remove("hide");
+            document.getElementById("msg").classList.add("toast-success");
+            document.getElementById("msg").classList.remove("toast-error");
+            document.getElementById(
+              "msg"
+            ).innerText = `${document.location.host}/${text}`;
+          })
+          .catch((e) => {
+            // error in e.message
+            console.error(e.message);
+            document.getElementById("msg").classList.remove("hide");
+            document.getElementById("msg").classList.remove("toast-success");
+            document.getElementById("msg").classList.add("toast-error");
+            document.getElementById("msg").innerText = e.message;
+          });
+      } else {
+        document.getElementById("msg").classList.remove("hide");
+        document.getElementById("msg").classList.remove("toast-success");
+        document.getElementById("msg").classList.add("toast-error");
+        document.getElementById("msg").innerText = "url valid fail!";
+      }
+    };
+    const submit62 = () => {
+      const url = geturl();
+      const jsonObj = {
+        url: url,
+      };
+      post(jsonObj);
+    };
+    const submitemoji = () => {
+      const url = geturl();
+      const jsonObj = {
+        url: url,
+        type: "emoji",
+      };
+      post(jsonObj);
+    };
+  </script>
+</html>
